@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Manajer\AdminController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,4 +18,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+
+
+Route::prefix('manajer')->group(function () {
+    Route::get('admin', [AdminController::class, 'index']);
+    Route::get('admin/{id}', [AdminController::class, 'show']);  // Untuk detail
+    Route::post('admin', [AdminController::class, 'store']);  // Ubah dari 'admin/store' jadi 'admin'
+    Route::put('admin/{id}', [AdminController::class, 'update']);
+    Route::post('admin/{id}/password', [AdminController::class, 'updatePassword']);
+    Route::delete('admin/{id}', [AdminController::class, 'destroy']);
 });
