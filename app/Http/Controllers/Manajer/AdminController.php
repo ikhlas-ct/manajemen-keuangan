@@ -60,10 +60,13 @@ class AdminController extends Controller
       return redirect()->route('manajer.admin.index')->with('success', 'Admin created successfully.');
   }
 
-public function edit($id)
+public function edit($id, Request $request)
 {
-    $admin = Admin::findOrFail($id);
-    return view('manajer.admin.edit', compact('admin'));
+    $admins = Admin::findOrFail($id);
+      if ($request->expectsJson()) {
+        return response()->json($admins);
+    }
+    return view('manajer.admin.edit', compact('admins'));
 }
 
   public function update(Request $request, $id)
@@ -73,7 +76,7 @@ public function edit($id)
       $validatedData = $request->validate([
           'nama_admin' => 'required|string|max:255',
           'alamat' => 'required|string|max:255',
-          'no_telepon' => 'required|integer',
+          'no_telepon' => 'required|string|min:12|max:20',
           'id_user' => 'required|integer|exists:users,id',
       ]);
 
