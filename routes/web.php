@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Manajer\AdminController;
+use App\Http\Controllers\CategorieController
+
 
 /*
 |--------------------------------------------------------------------------
