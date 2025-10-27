@@ -14,12 +14,12 @@ class ManajerController extends Controller
 {
     public function index(Request $request)
 {
-    $managers = Manajer::with('user')->get();
+    $manajers = Manajer::with('user')->get();
 
     if ($request->expectsJson()) {
-        return response()->json($managers);
+        return response()->json($manajers);
     }
-    return view('pages.manajer.manajer.index', compact('managers'));
+    return view('pages.manajer.manajer.index', compact('manajers'));
 }
 
 //   public function store(Request $request)
@@ -119,11 +119,11 @@ public function store(Request $request)
 
 public function edit($id, Request $request)
 {
-    $managers = Manajer::findOrFail($id);
+    $manajers = Manajer::findOrFail($id);
       if ($request->expectsJson()) {
-        return response()->json($managers);
+        return response()->json($manajers);
     }
-    return view('pages.manajer.manajer.edit', compact('managers'));
+    return view('pages.manajer.manajer.edit', compact('manajers'));
 }
 
   public function update(Request $request, $id)
