@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Manajer\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,10 @@ Route::get('/', function () {
 Route::get('/testing', function () {
     return view('pages.dashboard');
 });
+
+
+Route::get('/manajer/admin',[AdminController::class,'index'])->name('manajer.admin.index');
+Route::post('/manajer/admin',[AdminController::class,'store'])->name('manajer.admin.store');
+Route::get('/manajer/admin/{id}/edit',[AdminController::class,'edit'])->name('manajer.admin.edit');
+Route::put('/manajer/admin/{id}',[AdminController::class,'update'])->name('manajer.admin.update');
+Route::delete('/manajer/admin/{id}',[AdminController::class,'destroy'])->name('manajer.admin.destroy');
