@@ -1,36 +1,59 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="en">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@yield('title', 'Manajemen Keuangan')</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('user/vendors/typicons.font/font/typicons.css') }}">
+    <link rel="stylesheet" href="{{ asset('user/vendors/css/vendor.bundle.base.css') }}">
+    <link rel="stylesheet" href="{{ asset('user/vendors/select2/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('user/vendors/select2-bootstrap-theme/select2-bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('user/css/vertical-layout-light/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('layouts.navigation')
+    @yield('styles')
+</head>
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+<body>
+    <div class="container-scroller">
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            @include('partials.navbar')
+        </nav>
+        <div class="container-fluid page-body-wrapper">
+            <div class="theme-setting-wrapper">
+                @include('partials.setting')
+            </div>
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                @include('partials.sidebar')
+            </nav>
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    @yield('content')
+
+                </div>
+                <footer class="footer">
+                    @include('partials.footer')
+                </footer>
+            </div>
         </div>
-    </body>
+    </div>
+    {{-- scripts --}}
+    <script src="{{ asset('user/vendors/js/vendor.bundle.base.js') }}"></script>
+    <script src="{{ asset('user/js/off-canvas.js') }}"></script>
+    <script src="{{ asset('user/js/hoverable-collapse.js') }}"></script>
+    <script src="{{ asset('user/js/template.js') }}"></script>
+    <script src="{{ asset('user/js/settings.js') }}"></script>
+    <script src="{{ asset('user/js/todolist.js') }}"></script>
+    <script src="{{ asset('user/vendors/typeahead.js/typeahead.bundle.min.js') }}"></script>
+    <script src="{{ asset('user/vendors/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('user/js/file-upload.js') }}"></script>
+    <script src="{{ asset('user/js/typeahead.js') }}"></script>
+    <script src="{{ asset('user/js/select2.js') }}"></script>
+
+    @yield('scripts')
+</body>
+
 </html>

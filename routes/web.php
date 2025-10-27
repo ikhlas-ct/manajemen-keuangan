@@ -3,6 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Transactions\IncomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Manajer\AdminController;
+use App\Http\Controllers\Manajer\ManajerController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,11 +22,23 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/testing', function () {
+    return view('pages.dashboard');
+});
 
 
+Route::get('/manajer/admin',[AdminController::class,'index'])->name('manajer.admin.index');
+Route::post('/manajer/admin',[AdminController::class,'store'])->name('manajer.admin.store');
+Route::get('/manajer/admin/{id}/edit',[AdminController::class,'edit'])->name('manajer.admin.edit');
+Route::put('/manajer/admin/{id}',[AdminController::class,'update'])->name('manajer.admin.update');
+Route::delete('/manajer/admin/{id}',[AdminController::class,'destroy'])->name('manajer.admin.destroy');
+
+
+Route::get('/manajer/manajer',[ManajerController::class,'index'])->name('manajer.manajer.index');
+Route::post('manajer/manajer', [ManajerController::class, 'store'])->name('manajer.manajer.store');
+Route::put('manajer/manajer/{id}', [ManajerController::class, 'update'])->name('manajer.manajer.update');
+Route::put('manajer/manajer/{id}/password', [ManajerController::class, 'updatePassword'])->name('manajer.manajer.updatePassword');
+Route::delete('manajer/manajer/{id}', [ManajerController::class, 'destroy'])->name('manajer.manajer.destroy');
 
 
 Route::middleware('auth')->group(function () {
