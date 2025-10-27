@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Transactions\IncomeController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Manajer\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,16 +16,25 @@ use App\Http\Controllers\Manajer\AdminController;
 */
 
 Route::get('/', function () {
-    return view('layouts.app');
+    return view('welcome');
 });
 
-Route::get('/testing', function () {
-    return view('pages.dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/dashboard', function () {
+        return view('admin.layouts.app');
+    })->name('dashboard');
+    Route::resource('income', IncomeController::class);
 });
 
-
-Route::get('/manajer/admin',[AdminController::class,'index'])->name('manajer.admin.index');
-Route::post('/manajer/admin',[AdminController::class,'store'])->name('manajer.admin.store');
-Route::get('/manajer/admin/{id}/edit',[AdminController::class,'edit'])->name('manajer.admin.edit');
-Route::put('/manajer/admin/{id}',[AdminController::class,'update'])->name('manajer.admin.update');
-Route::delete('/manajer/admin/{id}',[AdminController::class,'destroy'])->name('manajer.admin.destroy');
+require __DIR__.'/auth.php';
