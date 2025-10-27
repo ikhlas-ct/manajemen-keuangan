@@ -17,7 +17,7 @@ class AdminController extends Controller
     if ($request->expectsJson()) {
         return response()->json($admins);
     }
-    return view('manajer.admin.index', compact('admins'));
+    return view('pages.manajer.admin.index', compact('admins'));
 }
 
   public function store(Request $request)
@@ -66,7 +66,7 @@ public function edit($id, Request $request)
       if ($request->expectsJson()) {
         return response()->json($admins);
     }
-    return view('manajer.admin.edit', compact('admins'));
+    return view('pages.manajer.admin.edit', compact('admins'));
 }
 
   public function update(Request $request, $id)

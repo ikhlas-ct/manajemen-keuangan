@@ -4,13 +4,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Manajemen Keuangan</title>
+    <title>@yield('title', 'Manajemen Keuangan')</title>
+
     <link rel="stylesheet" href="{{ asset('user/vendors/typicons.font/font/typicons.css') }}">
     <link rel="stylesheet" href="{{ asset('user/vendors/css/vendor.bundle.base.css') }}">
     <link rel="stylesheet" href="{{ asset('user/vendors/select2/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('user/vendors/select2-bootstrap-theme/select2-bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('user/css/vertical-layout-light/style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    @yield('styles')
 </head>
 
 <body>

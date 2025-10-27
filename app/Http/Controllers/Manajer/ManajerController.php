@@ -19,7 +19,7 @@ class ManajerController extends Controller
     if ($request->expectsJson()) {
         return response()->json($managers);
     }
-    return view('manajer.manajer.index', compact('managers'));
+    return view('pages.manajer.manajer.index', compact('managers'));
 }
 
 //   public function store(Request $request)
@@ -123,7 +123,7 @@ public function edit($id, Request $request)
       if ($request->expectsJson()) {
         return response()->json($managers);
     }
-    return view('manajer.manajer.edit', compact('managers'));
+    return view('pages.manajer.manajer.edit', compact('managers'));
 }
 
   public function update(Request $request, $id)
