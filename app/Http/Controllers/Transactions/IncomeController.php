@@ -44,7 +44,7 @@ class IncomeController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('admin.pages.transactions-income.edit');
     }
 
     /**
