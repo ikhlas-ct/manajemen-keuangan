@@ -53,6 +53,9 @@
     <script src="{{ asset('user/js/file-upload.js') }}"></script>
     <script src="{{ asset('user/js/typeahead.js') }}"></script>
     <script src="{{ asset('user/js/select2.js') }}"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76A2z02tPqdj+Qf8tO6EYQ1Etrr1cD8lT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI"
+        crossorigin="anonymous"></script> --}}
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
