@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{ asset('user/vendors/select2-bootstrap-theme/select2-bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('user/css/vertical-layout-light/style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
     @yield('styles')
 </head>
@@ -52,6 +53,10 @@
     <script src="{{ asset('user/js/file-upload.js') }}"></script>
     <script src="{{ asset('user/js/typeahead.js') }}"></script>
     <script src="{{ asset('user/js/select2.js') }}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
 
     @yield('scripts')
 </body>

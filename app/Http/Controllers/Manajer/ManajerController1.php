@@ -11,14 +11,27 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 
+
 class ManajerController extends Controller
 {
-  public function index()
+//     public function index(Request $request)
+// {
+//     $manajers = Manajer::with('user')->get();
+
+//     if ($request->expectsJson()) {
+//         return response()->json($manajers);
+//     }
+//     return view('pages.manajer.manajer.index', compact('manajers'));
+// }
+
+ public function index()
     {
+        // hanya untuk menampilkan tampilan awal tabel
         return view('pages.manajer.manajer.index');
     }
 
- public function data(Request $request)
+    // method baru untuk DataTables AJAX
+    public function data(Request $request)
     {
         if ($request->ajax()) {
             $manajers = Manajer::with('user')->select('manajer.*');
@@ -41,14 +54,6 @@ class ManajerController extends Controller
                 ->toJson();
         }
     }
-
-
-
-
-
-
-
-
 
 //   public function store(Request $request)
 //   {
@@ -162,13 +167,9 @@ public function edit($id, Request $request)
           'nama_manajer' => 'required|string|max:255',
           'alamat' => 'required|string|max:255',
           'no_telepon' => 'required|string|min:12|max:20',
-          'email' => 'required|string|email|max:255|unique:users,email,'.$manajer->user->id,
       ]);
 
       $manajer->update($validatedData);
-      $manajer->user->update([
-          'email' => $validatedData['email'],
-      ]);
       if ($request->expectsJson()) {
     return response()->json(['success' => true, 'message' => 'Updated', 'data' => $manajer->load('user')]);
 }

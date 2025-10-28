@@ -13,44 +13,152 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Data Manajer</h4>
-                    <p class="card-description">
-                        Add class <code>.table-hover</code>
-                    </p>
+                        @include('partials.alert')
+                    <button type="button" class="btn btn-primary mb-3 mt-1" data-toggle="modal" data-target="#staticBackdrop">
+                        Tambah Data Manajer
+                    </button>
+
                     <div class="table-responsive">
-                        <table class="table-hover table">
+                        <table id="manajer-table" class="table-hover table text-center">
                             <thead>
                                 <tr>
-                                    <th>Nama Manajer</th>
-                                    <th>Alamat</th>
-                                    <th>No Telepon</th>
-                                    <th>Aksi</th>
+                                    <th class="text-center">No</th>
+                                    <th class="text-center">Nama Manajer</th>
+                                    <th class="text-center">Alamat</th>
+                                    <th class="text-center">No Telepon</th>
+                                    <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach ($manajers as $manajer)
-                                    <tr>
-                                        <td>{{ $manajer->nama_manajer }}</td>
-                                        <td>{{ $manajer->alamat }}</td>
-                                        <td>{{ $manajer->no_telepon }}</td>
-                                        <td>
-                                            <a href="#">Edit</a>
-                                            <a href="#">Eelete</a>
-
-                                        </td>
-                                    </tr>
-                                @endforeach
-
-                            </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form class="modal-content forms-sample" action="{{ route('manajer.manajer.store') }}" method="POST">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Tambah Data Manajer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    @include('partials.alert')
+
+                    <div class="form-group">
+                        <label for="nama_manajer">Nama Manajer</label>
+                        <input type="text" class="form-control @error('nama_manajer') is-invalid @enderror"
+                            id="nama_manajer" name="nama_manajer" value="{{ old('nama_manajer') }}"
+                            placeholder="Nama Manajer" required>
+                        @error('nama_manajer')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                            name="email" value="{{ old('email') }}" placeholder="Email" required>
+                        @error('email')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="alamat">Alamat</label>
+                        <input type="text" class="form-control @error('alamat') is-invalid @enderror" id="alamat"
+                            name="alamat" value="{{ old('alamat') }}" placeholder="Alamat" required>
+                        @error('alamat')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="no_telepon">No Telepon</label>
+                        <input type="number" class="form-control @error('no_telepon') is-invalid @enderror" id="no_telepon"
+                            name="no_telepon" value="{{ old('no_telepon') }}" placeholder="No Telepon" required>
+                        @error('no_telepon')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                      <div class="form-group">
+                        <label for="name">Username</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
+                            name="name" value="{{ old('name') }}" placeholder="name" required>
+                        @error('name')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
+                            name="password" placeholder="Password" required>
+                        @error('password')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password_confirmation">Confirm Password</label>
+                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
+                            placeholder="Confirm Password" required>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
     </div>
 
 @endsection
 
 {{-- ==================== SCRIPTS ==================== --}}
 @section('scripts')
+
+    <script>
+        $(function() {
+            $('#manajer-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('manajer.data') }}',
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'nama_manajer',
+                        name: 'nama_manajer'
+                    },
+                    {
+                        data: 'alamat',
+                        name: 'alamat'
+                    },
+                    {
+                        data: 'no_telepon',
+                        name: 'no_telepon'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        className: 'text-center',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+        });
+    </script>
 @endsection
