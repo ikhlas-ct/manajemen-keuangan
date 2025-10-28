@@ -196,15 +196,19 @@ public function updatePassword(Request $request, $id)
 
 public function destroy(Request $request, $id)
 {
-    $manajer = Manajer::findOrFail($id);
-    $user = User::findOrFail($manajer->id_user);
+    DB::transaction(function() use ($id) {
+        $manajer = Manajer::findOrFail($id);
+        $user = User::findOrFail($manajer->id_user);
 
-    $manajer->delete();
-    $user->delete();
+        $manajer->delete();
+        $user->delete();
+    });
 
     if ($request->expectsJson()) {
         return response()->json(['success' => true, 'message' => 'Deleted']);
     }
     return redirect()->route('manajer.manajer.index')->with('success', 'Manajer deleted successfully.');
 }
+
+
 }

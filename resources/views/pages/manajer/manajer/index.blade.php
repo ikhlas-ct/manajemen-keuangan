@@ -128,11 +128,13 @@
 
     <script>
         $(function() {
-            $('#manajer-table').DataTable({
+            // simpan instance DataTable agar bisa direload setelah delete
+            var table = $('#manajer-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: '{{ route('manajer.data') }}',
-                columns: [{
+                columns: [
+                    {
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
                         orderable: false,
@@ -159,6 +161,40 @@
                     },
                 ]
             });
+
+            // delegated event untuk tombol hapus (dapat dibuat di server-side render)
+            $(document).on('click', '.btn-delete', function(e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                if (!id) return alert('ID tidak ditemukan.');
+
+                if (!confirm('Yakin ingin menghapus data ini?')) return;
+
+                $.ajax({
+                    url: '/manajer/manajer/' + id,
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        // respon JSON dari controller mengandung success & message
+                        if (response && response.success) {
+                            table.ajax.reload(null, false); // reload tanpa reset paging
+                            alert(response.message || 'Data berhasil dihapus.');
+                        } else {
+                            alert(response.message || 'Gagal menghapus data.');
+                        }
+                    },
+                    error: function(xhr) {
+                        var msg = 'Terjadi kesalahan.';
+                        try {
+                            if (xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
+                        } catch (e) {}
+                        alert(msg);
+                    }
+                });
+            });
         });
     </script>
+
 @endsection
