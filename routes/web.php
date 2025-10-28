@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Manajer\AdminController;
 use App\Http\Controllers\Manajer\ManajerController;
+use App\Http\Controllers\CategorieController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -32,8 +34,19 @@ Route::delete('/manajer/admin/{id}',[AdminController::class,'destroy'])->name('m
 
 
 Route::get('/manajer/manajer',[ManajerController::class,'index'])->name('manajer.manajer.index');
+
+Route::get('/manajer/data',[ManajerController::class,'data'])->name('manajer.data');
 Route::post('manajer/manajer', [ManajerController::class, 'store'])->name('manajer.manajer.store');
 Route::put('manajer/manajer/{id}', [ManajerController::class, 'update'])->name('manajer.manajer.update');
-Route::put('manajer/manajer/{id}/password', [ManajerController::class, 'updatePassword'])->name('manajer.manajer.updatePassword');
+Route::get('manajer/manajer/{id}', [ManajerController::class, 'edit'])->name('manajer.manajer.edit');
+Route::put('manajer/manajer/{id}/password', [ManajerController::class, 'updatePassword'])->name('manajer.manajer.update-password');
 Route::delete('manajer/manajer/{id}', [ManajerController::class, 'destroy'])->name('manajer.manajer.destroy');
 
+
+
+// Daftar kategori
+Route::get('/categories', [CategorieController::class, 'index'])->name('manajer.categories.index');
+Route::post('/categories', [CategorieController::class, 'store'])->name('manajer.categories.store');
+Route::get('/categories/{id}/edit', [CategorieController::class, 'edit'])->name('manajer.categories.edit');
+Route::put('/categories/{id}', [CategorieController::class, 'update'])->name('manajer.categories.update');
+Route::delete('/categories/{id}', [CategorieController::class, 'destroy'])->name('manajer.categories.destroy');

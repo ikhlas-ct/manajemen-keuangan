@@ -9,18 +9,46 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Yajra\DataTables\Facades\DataTables;
 
 class ManajerController extends Controller
 {
-    public function index(Request $request)
-{
-    $managers = Manajer::with('user')->get();
-
-    if ($request->expectsJson()) {
-        return response()->json($managers);
+  public function index()
+    {
+        return view('pages.manajer.manajer.index');
     }
-    return view('pages.manajer.manajer.index', compact('managers'));
-}
+
+ public function data(Request $request)
+    {
+        if ($request->ajax()) {
+            $manajers = Manajer::with('user')->select('manajer.*');
+
+            return DataTables::eloquent($manajers)
+                ->addIndexColumn()
+                ->addColumn('nama_user', function($m) {
+                    return $m->user->name ?? '-';
+                })
+                ->addColumn('email', function($m) {
+                    return $m->user->email ?? '-';
+                })
+                ->addColumn('action', function($m){
+                    return '
+                        <a href="'.route('manajer.manajer.edit', $m->id).'" class="btn btn-sm btn-primary">Edit</a>
+                        <button data-id="'.$m->id.'" class="btn btn-sm btn-danger btn-delete">Hapus</button>
+                    ';
+                })
+                ->rawColumns(['action'])
+                ->toJson();
+        }
+    }
+
+
+
+
+
+
+
+
 
 //   public function store(Request $request)
 //   {
@@ -119,11 +147,11 @@ public function store(Request $request)
 
 public function edit($id, Request $request)
 {
-    $managers = Manajer::findOrFail($id);
+    $manajers = Manajer::findOrFail($id);
       if ($request->expectsJson()) {
-        return response()->json($managers);
+        return response()->json($manajers);
     }
-    return view('pages.manajer.manajer.edit', compact('managers'));
+    return view('pages.manajer.manajer.edit', compact('manajers'));
 }
 
   public function update(Request $request, $id)
@@ -134,9 +162,13 @@ public function edit($id, Request $request)
           'nama_manajer' => 'required|string|max:255',
           'alamat' => 'required|string|max:255',
           'no_telepon' => 'required|string|min:12|max:20',
+          'email' => 'required|string|email|max:255|unique:users,email,'.$manajer->user->id,
       ]);
 
       $manajer->update($validatedData);
+      $manajer->user->update([
+          'email' => $validatedData['email'],
+      ]);
       if ($request->expectsJson()) {
     return response()->json(['success' => true, 'message' => 'Updated', 'data' => $manajer->load('user')]);
 }
@@ -164,15 +196,19 @@ public function updatePassword(Request $request, $id)
 
 public function destroy(Request $request, $id)
 {
-    $manajer = Manajer::findOrFail($id);
-    $user = User::findOrFail($manajer->id_user);
+    DB::transaction(function() use ($id) {
+        $manajer = Manajer::findOrFail($id);
+        $user = User::findOrFail($manajer->id_user);
 
-    $manajer->delete();
-    $user->delete();
+        $manajer->delete();
+        $user->delete();
+    });
 
     if ($request->expectsJson()) {
         return response()->json(['success' => true, 'message' => 'Deleted']);
     }
     return redirect()->route('manajer.manajer.index')->with('success', 'Manajer deleted successfully.');
 }
+
+
 }
