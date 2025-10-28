@@ -27,24 +27,30 @@
                         </tr>
                     </thead>
                     <tbody style="font-size: 13px;">
-                        {{-- @foreach() --}}
-                            <tr>
-                                <td>1</td>
-                                <td>Proyek</td>
-                                <td>01 Jan 2025</td>
-                                <td>Rp 1.000.000</td>
-                                <td>-</td>
-                                <td>Description</td>
-                                <td>
-                                    <a href="{{ route('income.edit', 1) }}" class="btn btn-warning btn-sm">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                    <button class="btn btn-sm btn-danger btn-delete-income" data-toggle="modal" data-target="#deleteIncomeModal">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        {{-- @endforeach --}}
+                        @foreach($transactions as $item)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->category->name ?? '-' }}</td>
+                            <td>{{ \Carbon\Carbon::parse($item->date)->translatedFormat('d M Y') }}</td>
+                            <td>Rp {{ number_format($item->amount, 0, ',', '.') }}</td>
+                            <td>
+                                @if($item->receipt_file)
+                                    <a href="{{ asset('storage/'.$item->receipt_file) }}" target="_blank">View</a>
+                                @else
+                                    -
+                                @endif
+                            </td>
+                            <td>{{ $item->description ?? '-' }}</td>
+                            <td>
+                                <a href="{{ route('income.edit', $item->id) }}" class="btn btn-warning btn-sm">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <button class="btn btn-sm btn-danger btn-delete-income" data-toggle="modal" data-target="#deleteIncomeModal" data-id="{{ $item->id }}">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
                 @include('admin.pages.transactions-income.modal-create')

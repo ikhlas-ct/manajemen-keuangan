@@ -1,7 +1,7 @@
 <div class="modal fade" id="createIncomeModal" tabindex="-1" aria-labelledby="createIncomeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="#" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('income.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
                     <h3 class="modal-title" id="createIncomeModalLabel" style="font-weight: bold">+ Add Income</h3>
@@ -14,9 +14,9 @@
                         <label for="category_id" class="form-label">Category</label>
                         <select name="category_id" id="category_id" class="form-control select2" required>
                             <option value="">-- Select Category --</option>
-                            {{-- @foreach ($categories as $category)
+                            @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach --}}
+                            @endforeach
                         </select>
                     </div>
                     <div class="mb-2">
@@ -29,7 +29,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="receipt_file" class="form-label">Receipt</label>
-                        <input type="file" class="form-control form-control-sm" id="receipt_file" name="receipt_file" placeholder="Selecet Receipt">
+                        <input type="file" class="form-control form-control-sm" id="receipt_file" name="receipt_file">
                     </div>
                     <div class="mb-2">
                         <label for="description" class="form-label">Description</label>
@@ -45,7 +45,6 @@
     </div>
 </div>
 
-
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         flatpickr(".date", {
@@ -53,11 +52,11 @@
             minDate: "today",
             allowInput: true
         });
+
         $('#category_id').select2({
             dropdownParent: $('#createIncomeModal'),
             width: '100%',
-            placeholder:"- Select Category -"
+            placeholder: "- Select Category -"
         });
     });
 </script>
-
