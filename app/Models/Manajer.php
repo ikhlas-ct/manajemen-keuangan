@@ -10,7 +10,7 @@ class Manajer extends Model
     use HasFactory;
 
 
-    protected $table = 'manajers';
+    protected $table = 'manajer';
     protected $primaryKey = 'id';
     protected $fillable = [
         'nama_manajer',
