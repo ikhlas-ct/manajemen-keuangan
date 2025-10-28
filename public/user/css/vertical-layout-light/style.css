@@ -23369,26 +23369,16 @@ body.avgrund-active {
   padding: 0;
 }
 
-.sidebar .nav.sub-menu .nav-item::before {
-  content: '';
-  width: 2px;
-  height: 8px;
-  position: absolute;
-  margin-top: 0;
-  top: 3px;
-  border-radius: 0;
-  background: #8e95aa;
+.sidebar .nav.sub-menu .nav-item::before,
+.sidebar .nav.sub-menu .nav-item::after {
+    content: none;
+    display: none;
+    background: none;
 }
 
-.sidebar .nav.sub-menu .nav-item::after {
-  content: '';
-  width: 2px;
-  height: 8px;
-  position: absolute;
-  margin-top: 0;
-  bottom: 3px;
-  border-radius: 0;
-  background: #8e95aa;
+/* Sesuaikan indentasi submenu agar tetap rapi */
+.sidebar .nav.sub-menu {
+    padding-left: 2rem !important;
 }
 
 .sidebar .nav.sub-menu .nav-item .nav-link {
