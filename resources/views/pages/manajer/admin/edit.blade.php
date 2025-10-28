@@ -1,3 +1,4 @@
+@extends('layouts.app')
 {{-- ==================== PAGE TITLE ==================== --}}
 @section('title','Edit Data Admin')
 
