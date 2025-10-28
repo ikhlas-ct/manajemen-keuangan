@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Manajer\AdminController;
 use App\Http\Controllers\Manajer\ManajerController;
 
+use App\Http\Controllers\CategorieController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -53,3 +55,11 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+// Daftar kategori
+Route::get('/categories', [CategorieController::class, 'index'])->name('manajer.categories.index');
+Route::post('/categories', [CategorieController::class, 'store'])->name('manajer.categories.store');
+Route::get('/categories/{id}/edit', [CategorieController::class, 'edit'])->name('manajer.categories.edit');
+Route::put('/categories/{id}', [CategorieController::class, 'update'])->name('manajer.categories.update');
+Route::delete('/categories/{id}', [CategorieController::class, 'destroy'])->name('manajer.categories.destroy');
