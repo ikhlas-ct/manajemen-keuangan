@@ -39,20 +39,11 @@ Route::put('manajer/manajer/{id}', [ManajerController::class, 'update'])->name('
 Route::put('manajer/manajer/{id}/password', [ManajerController::class, 'updatePassword'])->name('manajer.manajer.updatePassword');
 Route::delete('manajer/manajer/{id}', [ManajerController::class, 'destroy'])->name('manajer.manajer.destroy');
 
-// Route::get('/categories', [CategorieController::class, 'index'])->name('manajer.categories.index');
-// Route::post('/categories', [CategorieController::class, 'store'])->name('manajer.categories.store');
-// Route::get('/categories/{id}/edit', [CategorieController::class, 'edit'])->name('manajer.categories.edit');
-// Route::put('/categories/{id}', [CategorieController::class, 'update'])->name('manajer.categories.update');
-// Route::delete('/categories/{id}', [CategorieController::class, 'destroy'])->name('manajer.categories.destroy');
+
 
 // Daftar kategori
 Route::get('/categories', [CategorieController::class, 'index'])->name('manajer.categories.index');
-
-// Tambah kategori (dari modal create)
 Route::post('/categories', [CategorieController::class, 'store'])->name('manajer.categories.store');
-
-// Update kategori (dari modal edit)
+Route::get('/categories/{id}/edit', [CategorieController::class, 'edit'])->name('manajer.categories.edit');
 Route::put('/categories/{id}', [CategorieController::class, 'update'])->name('manajer.categories.update');
-
-// Hapus kategori (dari modal delete)
 Route::delete('/categories/{id}', [CategorieController::class, 'destroy'])->name('manajer.categories.destroy');
