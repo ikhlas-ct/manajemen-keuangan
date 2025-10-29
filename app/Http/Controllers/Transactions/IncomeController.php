@@ -23,7 +23,7 @@ class IncomeController extends Controller
 
         $categories = Categorie::where('type', 'income')->get();
 
-        return view('admin.pages.transactions-income.index', compact('transactions', 'categories'));
+        return view('pages.admin.transactions-income.index', compact('transactions', 'categories'));
     }
 
     /**
@@ -82,7 +82,7 @@ class IncomeController extends Controller
      */
     public function edit(string $id)
     {
-        return view('admin.pages.transactions-income.edit');
+        return view('pages.admin.transactions-income.edit');
     }
 
     /**

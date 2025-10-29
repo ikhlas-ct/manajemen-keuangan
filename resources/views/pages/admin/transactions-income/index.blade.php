@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Income Transactions Data')
 
@@ -53,8 +53,8 @@
                         @endforeach
                     </tbody>
                 </table>
-                @include('admin.pages.transactions-income.modal-create')
-                @include('admin.pages.transactions-income.modal-delete')
+                @include('pages.admin.transactions-income.modal-create')
+                @include('pages.admin.transactions-income.modal-delete')
             </div>
         </div>
     </div>
