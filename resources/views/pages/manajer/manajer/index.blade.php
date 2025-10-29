@@ -24,6 +24,7 @@
                                 <tr>
                                     <th class="text-center">No</th>
                                     <th class="text-center">Nama Manajer</th>
+                                    <th class="text-center">Email</th>
                                     <th class="text-center">Alamat</th>
                                     <th class="text-center">No Telepon</th>
                                     <th class="text-center">Aksi</th>
@@ -143,6 +144,10 @@
                     {
                         data: 'nama_manajer',
                         name: 'nama_manajer'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
                     },
                     {
                         data: 'alamat',
