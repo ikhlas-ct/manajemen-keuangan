@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+{{-- ==================== PAGE TITLE ==================== --}}
+@section('title','Data Dategorie')
+
+{{-- ==================== STYLES ==================== --}}
+@section('styles')
+@endsection
+
+{{-- ==================== CONTENT ==================== --}}
 @section('content')
 <div class="col-lg-12 grid-margin stretch-card mx-auto">
   <div class="card shadow-sm">
@@ -51,7 +59,7 @@
                     <i class="bi bi-pencil-square"></i>
                   </a>
                   {{-- Tombol Delete --}}
-                  <form action="{{ route('manajer.categories.destroy', $category->id) }}" 
+                  <form action="{{ route('manajer.categories.destroy', $category->id) }}"
                         method="POST" class="d-inline"
                         onsubmit="return confirm('Yakin ingin menghapus kategori ini?')">
                     @csrf
@@ -127,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
       form.reset();
     });
   }
-  
+
 });
 </script>
 @endsection
