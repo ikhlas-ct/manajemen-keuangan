@@ -134,10 +134,14 @@
                 <i class="typcn typcn-cog text-primary"></i>
                 Settings
                 </a>
-                <a class="dropdown-item">
-                <i class="typcn typcn-power text-primary"></i>
-                Logout
-                </a>
+                <form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" class="dropdown-item border-0 bg-transparent w-100 text-start">
+        <i class="typcn typcn-power text-primary"></i>
+        Logout
+    </button>
+</form>
+
               </div>
             </li>
           </ul>
