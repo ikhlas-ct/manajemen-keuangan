@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Transactions\IncomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Manajer\AdminController;
 use App\Http\Controllers\Manajer\ManajerController;
@@ -18,7 +20,7 @@ use App\Http\Controllers\CategorieController;
 */
 
 Route::get('/', function () {
-    return view('layouts.app');
+    return view('welcome');
 });
 
 Route::get('/testing', function () {
@@ -45,6 +47,7 @@ Route::delete('manajer/manajer/{id}', [ManajerController::class, 'destroy'])->na
 
 
 
+
 // ========================================= Categorie Routes ========================================= //
 Route::get('/categories', [CategorieController::class, 'index'])->name('manajer.categories.index');
 Route::post('/categories', [CategorieController::class, 'store'])->name('manajer.categories.store');
@@ -52,6 +55,16 @@ Route::get('/categories/{id}/edit', [CategorieController::class, 'edit'])->name(
 Route::put('/categories/{id}', [CategorieController::class, 'update'])->name('manajer.categories.update');
 Route::delete('/categories/{id}', [CategorieController::class, 'destroy'])->name('manajer.categories.destroy');
 
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/dashboard', function () {
+        return view('layouts.app');
+    })->name('dashboard');
+    Route::resource('income', IncomeController::class);
+});
 
 // ========================================= laporan keuangan tes Routes ========================================= //
 Route::get('/laporan', function () {
@@ -61,3 +74,5 @@ Route::get('/laporan', function () {
 Route::get('/laporan/pdf', function () {
     return view('pages.admin.laporan.laporan-pdf');
 })->name('laporan.pdf');
+
+require __DIR__.'/auth.php';

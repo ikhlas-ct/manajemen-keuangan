@@ -62,12 +62,19 @@
            </a>
        </li>
 
-       <li class="nav-item">
-           <a class="nav-link" href="/">
-               <i class="typcn typcn-document-text menu-icon"></i>
-               <span class="menu-title">Transaksi</span>
-           </a>
-       </li>
+ <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#transaksi" aria-expanded="false" aria-controls="transaksi">
+              <i class="typcn typcn-document-text menu-icon"></i>
+              <span class="menu-title">Transaksi</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="transaksi">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/income"> Income </a></li>
+                <li class="nav-item"> <a class="nav-link" href="#"> Expense </a></li>
+              </ul>
+            </div>
+          </li>
        <li class="nav-item">
            <a class="nav-link" href="{{ route('laporan.index') }}">
                <i class="bi bi-file-earmark-pdf-fill menu-icon"></i>
@@ -75,7 +82,7 @@
            </a>
        </li>
        <li class="nav-item">
-           <a class="nav-link" href="#">
+           <a class="nav-link" href="/profile">
                <i class="bi bi-person-circle menu-icon"></i>
                <span class="menu-title">Profile</span>
            </a>
