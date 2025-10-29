@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Manajer\AdminController;
 use App\Http\Controllers\Manajer\ManajerController;
-use App\Http\Controllers\CategorieController;
-
+use App\Http\Controllers\Admin\Transaksi\PengeluaranController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,13 +19,17 @@ use App\Http\Controllers\CategorieController;
 |
 */
 
-Route::get('/', function () {
-    return view('layouts.app');
-});
 
-Route::get('/testing', function () {
-    return view('pages.dashboard');
-});
+
+Route::get('/', [LoginController::class, 'index'])->name('login');
+Route::post('/login', [LoginController::class, 'login_post'])->name('login.post');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+
+Route::get('/admin-dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+Route::get('/manajer-dashboard', [DashboardController::class, 'index'])->name('manajer.dashboard');
+Route::get('/home', [DashboardController::class, 'index'])->name('home');
+
 
 
 Route::get('/manajer/admin',[AdminController::class,'index'])->name('manajer.admin.index');
@@ -51,3 +57,14 @@ Route::post('/categories', [CategorieController::class, 'store'])->name('manajer
 Route::get('/categories/{id}/edit', [CategorieController::class, 'edit'])->name('manajer.categories.edit');
 Route::put('/categories/{id}', [CategorieController::class, 'update'])->name('manajer.categories.update');
 Route::delete('/categories/{id}', [CategorieController::class, 'destroy'])->name('manajer.categories.destroy');
+
+
+
+// ======================================== Pengeluaran Keuangan Route ========================================= //
+Route::get('/pengeluaran-keuangan',[PengeluaranController::class,'index'])->name('admin.transaksi.pengeluaran.index');
+Route::get('/pengeluaran-keuangan-summary',[PengeluaranController::class,'summary'])->name('admin.transaksi.pengeluaran.summary');
+Route::get('/pengeluaran-keuangan/data',[PengeluaranController::class,'data'])->name('admin.transaksi.pengeluaran.data');
+Route::post('/pengeluaran-keuangan',[PengeluaranController::class,'store'])->name('admin.transaksi.pengeluaran.store');
+Route::put('/pengeluaran-keuangan/{id}', [PengeluaranController::class, 'update'])->name('admin.transaksi.pengeluaran.update');
+Route::get('/pengeluaran-keuangan/{id}', [PengeluaranController::class, 'edit'])->name('admin.transaksi.pengeluaran.edit');
+Route::delete('/pengeluaran-keuangan/{id}', [PengeluaranController::class, 'destroy'])->name('admin.transaksi.pengeluaran.destroy');
