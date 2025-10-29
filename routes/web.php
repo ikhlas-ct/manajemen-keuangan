@@ -55,7 +55,6 @@ Route::get('/categories/{id}/edit', [CategorieController::class, 'edit'])->name(
 Route::put('/categories/{id}', [CategorieController::class, 'update'])->name('manajer.categories.update');
 Route::delete('/categories/{id}', [CategorieController::class, 'destroy'])->name('manajer.categories.destroy');
 
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -66,5 +65,14 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
     Route::resource('income', IncomeController::class);
 });
+
+// ========================================= laporan keuangan tes Routes ========================================= //
+Route::get('/laporan', function () {
+    return view('pages.admin.laporan.index');
+    })->name('laporan.index');;
+
+Route::get('/laporan/pdf', function () {
+    return view('pages.admin.laporan.laporan-pdf');
+    })->name('laporan.pdf');
 
 require __DIR__.'/auth.php';

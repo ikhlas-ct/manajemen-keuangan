@@ -62,7 +62,7 @@
            </a>
        </li>
 
-       <li class="nav-item">
+ <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#transaksi" aria-expanded="false" aria-controls="transaksi">
               <i class="typcn typcn-document-text menu-icon"></i>
               <span class="menu-title">Transaksi</span>
@@ -76,7 +76,7 @@
             </div>
           </li>
        <li class="nav-item">
-           <a class="nav-link" href="#">
+           <a class="nav-link" href="{{ route('laporan.index') }}">
                <i class="bi bi-file-earmark-pdf-fill menu-icon"></i>
                <span class="menu-title">Laporan Keuangan</span>
            </a>
