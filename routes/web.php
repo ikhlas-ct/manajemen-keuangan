@@ -73,6 +73,6 @@ Route::get('/laporan', function () {
 
 Route::get('/laporan/pdf', function () {
     return view('pages.admin.laporan.laporan-pdf');
-})->name('laporan.pdf');
+    })->name('laporan.pdf');
 
 require __DIR__.'/auth.php';
