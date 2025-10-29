@@ -82,7 +82,7 @@
            </a>
        </li>
        <li class="nav-item">
-           <a class="nav-link" href="#">
+           <a class="nav-link" href="/profile">
                <i class="bi bi-person-circle menu-icon"></i>
                <span class="menu-title">Profile</span>
            </a>
