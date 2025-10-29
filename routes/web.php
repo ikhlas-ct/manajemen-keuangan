@@ -62,7 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/dashboard', function () {
-        return view('admin.layouts.app');
+        return view('layouts.app');
     })->name('dashboard');
     Route::resource('income', IncomeController::class);
 });
