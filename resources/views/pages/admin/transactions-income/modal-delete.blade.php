@@ -16,7 +16,6 @@
 
                 <div class="modal-body text-center" style="font-size: 14px;">
                     <p class="mb-1">Are you sure you want to delete this income?</p>
-                    <strong id="namaIncomeDelete" class="text-danger"></strong>
                 </div>
 
                 <div class="modal-footer justify-content-center py-2">
@@ -28,20 +27,16 @@
     </div>
 </div>
 
-    {{-- <script>
+<script>
     document.addEventListener("DOMContentLoaded", function() {
         const deleteButtons = document.querySelectorAll('.btn-delete-income');
         const formDelete = document.getElementById('formDeleteIncome');
-        const namaIncomeSpan = document.getElementById('namaIncomeDelete');
 
         deleteButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const id = this.dataset.id;
-                // const nama = this.dataset.nama;
-
-                // namaIncomeSpan.textContent = nama;
                 formDelete.action = '/income/' + id;
             });
         });
     });
-    </script> --}}
+</script>

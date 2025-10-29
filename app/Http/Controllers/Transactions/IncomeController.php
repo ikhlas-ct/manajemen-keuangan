@@ -8,6 +8,7 @@ use App\Models\Categorie;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class IncomeController extends Controller
 {
@@ -82,7 +83,10 @@ class IncomeController extends Controller
      */
     public function edit(string $id)
     {
-        return view('pages.admin.transactions-income.edit');
+        $income = Transaction::findOrFail($id);
+        $categories = Categorie::where('type', 'income')->get();
+
+        return view('pages.admin.transactions-income.edit', compact('income', 'categories'));
     }
 
     /**
@@ -90,14 +94,46 @@ class IncomeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'date' => 'required|date_format:d-m-Y',
+            'amount' => 'required|numeric|min:0',
+            'receipt_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'description' => 'nullable|string|max:255',
+        ]);
+
+        $income = Transaction::findOrFail($id);
+
+        $formattedDate = Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
+
+        if ($request->hasFile('receipt_file')) {
+            if ($income->receipt_file && Storage::exists('public/' . $income->receipt_file)) {
+                Storage::delete('public/' . $income->receipt_file);
+            }
+
+            $file = $request->file('receipt_file');
+            $path = $file->store('receipts', 'public');
+        } else {
+            $path = $income->receipt_file;
+        }
+
+        $income->update([
+            'category_id' => $request->category_id,
+            'date' => $formattedDate,
+            'amount' => $request->amount,
+            'receipt_file' => $path,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('income.index')->with('success', 'Income already update!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Transaction $income)
     {
-        //
+        $income->delete();
+        return redirect()->route('income.index')->with('success', 'Income successfully deleted!');
     }
 }
