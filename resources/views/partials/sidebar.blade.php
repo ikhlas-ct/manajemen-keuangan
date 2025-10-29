@@ -63,13 +63,13 @@
        </li>
 
        <li class="nav-item">
-           <a class="nav-link" href="#">
+           <a class="nav-link" href="/">
                <i class="typcn typcn-document-text menu-icon"></i>
                <span class="menu-title">Transaksi</span>
            </a>
        </li>
        <li class="nav-item">
-           <a class="nav-link" href="#">
+           <a class="nav-link" href="{{ route('laporan.index') }}">
                <i class="bi bi-file-earmark-pdf-fill menu-icon"></i>
                <span class="menu-title">Laporan Keuangan</span>
            </a>

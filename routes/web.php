@@ -51,3 +51,13 @@ Route::post('/categories', [CategorieController::class, 'store'])->name('manajer
 Route::get('/categories/{id}/edit', [CategorieController::class, 'edit'])->name('manajer.categories.edit');
 Route::put('/categories/{id}', [CategorieController::class, 'update'])->name('manajer.categories.update');
 Route::delete('/categories/{id}', [CategorieController::class, 'destroy'])->name('manajer.categories.destroy');
+
+
+// ========================================= laporan keuangan tes Routes ========================================= //
+Route::get('/laporan', function () {
+    return view('pages.admin.laporan.index');
+    })->name('laporan.index');;
+
+Route::get('/laporan/pdf', function () {
+    return view('pages.admin.laporan.laporan-pdf');
+})->name('laporan.pdf');
