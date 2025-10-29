@@ -27,14 +27,15 @@ Route::get('/testing', function () {
 
 
 Route::get('/manajer/admin',[AdminController::class,'index'])->name('manajer.admin.index');
+Route::get('/manajer/admin/data',[AdminController::class,'data'])->name('manajer.admin.data');
 Route::post('/manajer/admin',[AdminController::class,'store'])->name('manajer.admin.store');
 Route::get('/manajer/admin/{id}/edit',[AdminController::class,'edit'])->name('manajer.admin.edit');
 Route::put('/manajer/admin/{id}',[AdminController::class,'update'])->name('manajer.admin.update');
 Route::delete('/manajer/admin/{id}',[AdminController::class,'destroy'])->name('manajer.admin.destroy');
 
 
+// ========================================= Manajer Routes ========================================= //
 Route::get('/manajer/manajer',[ManajerController::class,'index'])->name('manajer.manajer.index');
-
 Route::get('/manajer/data',[ManajerController::class,'data'])->name('manajer.data');
 Route::post('manajer/manajer', [ManajerController::class, 'store'])->name('manajer.manajer.store');
 Route::put('manajer/manajer/{id}', [ManajerController::class, 'update'])->name('manajer.manajer.update');
@@ -44,7 +45,7 @@ Route::delete('manajer/manajer/{id}', [ManajerController::class, 'destroy'])->na
 
 
 
-// Daftar kategori
+// ========================================= Categorie Routes ========================================= //
 Route::get('/categories', [CategorieController::class, 'index'])->name('manajer.categories.index');
 Route::post('/categories', [CategorieController::class, 'store'])->name('manajer.categories.store');
 Route::get('/categories/{id}/edit', [CategorieController::class, 'edit'])->name('manajer.categories.edit');

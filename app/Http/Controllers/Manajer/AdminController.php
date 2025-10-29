@@ -7,6 +7,7 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Yajra\DataTables\Facades\DataTables;
 
 class AdminController extends Controller
 {
@@ -19,6 +20,37 @@ class AdminController extends Controller
     }
     return view('pages.manajer.admin.index', compact('admins'));
 }
+
+ public function data(Request $request)
+    {
+        if ($request->ajax()) {
+            $admins = Admin::with('user')->select('admins.*');
+
+            return DataTables::eloquent($admins)
+                ->addIndexColumn()
+                ->addColumn('nama_user', function($m) {
+                    return $m->user->name ?? '-';
+                })
+                ->addColumn('email', function($m) {
+                    return $m->user->email ?? '-';
+                })
+                ->addColumn('action', function($m){
+                    return '
+                        <a href="'.route('manajer.admin.edit', $m->id).'" class="btn btn-sm btn-primary">Edit</a>
+                        <button data-id="'.$m->id.'" class="btn btn-sm btn-danger btn-delete">Hapus</button>
+                    ';
+                })
+                ->rawColumns(['action'])
+                ->toJson();
+        }
+    }
+
+
+
+
+
+
+
 
   public function store(Request $request)
   {
@@ -77,10 +109,14 @@ public function edit($id, Request $request)
           'nama_admin' => 'required|string|max:255',
           'alamat' => 'required|string|max:255',
           'no_telepon' => 'required|string|min:12|max:20',
-          'id_user' => 'required|integer|exists:users,id',
+          'email' => 'required|string|email|max:255|unique:users,email,'.$admin->user->id,
+
       ]);
 
       $admin->update($validatedData);
+    $admin->user->update([
+          'email' => $validatedData['email'],
+      ]);
       if ($request->expectsJson()) {
     return response()->json(['success' => true, 'message' => 'Updated', 'data' => $admin->load('user')]);
 }
