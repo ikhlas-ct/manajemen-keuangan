@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Manajer\AdminController;
 use App\Http\Controllers\Manajer\ManajerController;
 use App\Http\Controllers\CategorieController;
-
+use App\Http\Controllers\Transactions\ExpenseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +65,7 @@ Route::middleware('auth')->group(function () {
         return view('layouts.app');
     })->name('dashboard');
     Route::resource('income', IncomeController::class);
+    Route::resource('expense', ExpenseController::class);
 });
 
 require __DIR__.'/auth.php';
