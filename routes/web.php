@@ -8,7 +8,7 @@ use App\Http\Controllers\Manajer\ManajerController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\Transactions\ExpenseController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Transactions\ExpenseController;
+
 
 /*
 |--------------------------------------------------------------------------
