@@ -2,47 +2,92 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Laporan Keuangan</title>
+    <title>{{ $judul }}</title>
     <style>
         body {
             font-family: 'Times New Roman', Times, serif;
             margin: 40px;
+            color: #333;
+            font-size: 14px;
         }
 
-        h2, h4 {
+        .header {
             text-align: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .header h2 {
             margin: 0;
-            padding: 0;
+            font-size: 22px;
+            letter-spacing: 1px;
+        }
+        .header h4 {
+            margin-top: 5px;
+            font-weight: normal;
+            font-size: 16px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 25px;
+            margin-top: 20px;
         }
-
         th, td {
-            border: 1px solid black;
-            padding: 8px;
+            border: 1px solid #444;
+            padding: 8px 6px;
             text-align: center;
-            font-size: 14px;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
         }
 
-        th {
+        .summary {
+            margin-top: 40px;
+            width: 50%;
+            float: right;
+        }
+        .summary table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .summary td {
+            border: 1px solid #444;
+            padding: 8px;
+        }
+        .summary tr:nth-child(odd) {
+            background-color: #f7f7f7;
+        }
+        .summary td:first-child {
             font-weight: bold;
         }
 
-        .summary-table {
-            margin-top: 30px;
-            width: 50%;
-            border-collapse: collapse;
-            float: right;
+        .chart-section {
+            clear: both;
+            margin-top: 50px;
         }
-
-        .summary-table td {
-            border: 1px solid black;
-            padding: 8px;
-            font-size: 14px;
+        .chart-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .bar {
+            height: 22px;
+            color: white;
+            font-weight: bold;
+            text-align: right;
+            padding-right: 6px;
+            border-radius: 4px;
+        }
+        .bar-income {
+            background-color: #2e7d32;
+        }
+        .bar-expense {
+            background-color: #c62828;
         }
 
         .signature {
@@ -50,11 +95,21 @@
             text-align: right;
             font-size: 14px;
         }
+        .signature p {
+            margin: 0;
+        }
     </style>
 </head>
 <body>
-    <h2>LAPORAN KEUANGAN</h2>
-    <h4>Periode: Oktober 2025</h4>
+    <div class="header">
+        <h2>{{ strtoupper($judul) }}</h2>
+        <h4>Periode: {{ $periode }}</h4>
+    </div>
+    @php
+        $totalPemasukan = $data->where('type', 'income')->sum('amount');
+        $totalPengeluaran = $data->where('type', 'expense')->sum('amount');
+        $saldoAkhir = $totalPemasukan - $totalPengeluaran;
+    @endphp
 
     <table>
         <thead>
@@ -68,61 +123,65 @@
             </tr>
         </thead>
         <tbody>
+            @forelse($data as $index => $item)
             <tr>
-                <td>1</td>
-                <td>01/10/2025</td>
-                <td>Pembayaran proyek A</td>
-                <td>Pemasukan</td>
-                <td>5.000.000</td>
-                <td>Pemasukan</td>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ \Carbon\Carbon::parse($item->date)->format('d/m/Y') }}</td>
+                <td style="text-align: left;">{{ $item->description }}</td>
+                <td>{{ $item->category->name ?? '-' }}</td>
+                <td style="text-align: right;">{{ number_format($item->amount, 0, ',', '.') }}</td>
+                <td>{{ $item->type === 'income' ? 'Pemasukan' : 'Pengeluaran' }}</td>
             </tr>
+            @empty
             <tr>
-                <td>2</td>
-                <td>10/10/2025</td>
-                <td>Pembelian peralatan</td>
-                <td>Pengeluaran</td>
-                <td>1.500.000</td>
-                <td>Pengeluaran</td>
+                <td colspan="6">Tidak ada data transaksi pada periode ini.</td>
             </tr>
-            <tr>
-                <td>3</td>
-                <td>18/10/2025</td>
-                <td>Pembayaran jasa klien B</td>
-                <td>Pemasukan</td>
-                <td>3.500.000</td>
-                <td>Pemasukan</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>25/10/2025</td>
-                <td>Biaya operasional</td>
-                <td>Pengeluaran</td>
-                <td>750.000</td>
-                <td>Pengeluaran</td>
-            </tr>
+            @endforelse
         </tbody>
     </table>
 
-    <table class="summary-table">
-        <tr>
-            <td><strong>Total Pemasukan</strong></td>
-            <td>Rp 8.500.000</td>
-        </tr>
-        <tr>
-            <td><strong>Total Pengeluaran</strong></td>
-            <td>Rp 2.250.000</td>
-        </tr>
-        <tr>
-            <td><strong>Saldo Akhir</strong></td>
-            <td><strong>Rp 6.250.000</strong></td>
-        </tr>
-    </table>
+    <div class="summary">
+        <table>
+            <tr>
+                <td>Total Pemasukan</td>
+                <td style="text-align: right;">Rp {{ number_format($totalPemasukan, 0, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <td>Total Pengeluaran</td>
+                <td style="text-align: right;">Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <td><strong>Saldo Akhir</strong></td>
+                <td style="text-align: right;"><strong>Rp {{ number_format($saldoAkhir, 0, ',', '.') }}</strong></td>
+            </tr>
+        </table>
+    </div>
 
-    <div style="clear: both;"></div>
+    <div class="chart-section">
+        <div class="chart-title">Grafik Perbandingan Pemasukan & Pengeluaran</div>
+
+        <div style="margin-bottom:8px;">Pemasukan</div>
+        <div style="background:#e0e0e0; border-radius:5px; height:25px;">
+            <div style="width: {{ $totalPemasukan > 0 ? min(($totalPemasukan / max($totalPemasukan, $totalPengeluaran)) * 100, 100) : 0 }}%;
+                        background:#2e7d32; height:100%; border-radius:5px; text-align:right; color:white; padding-right:6px;">
+                Rp {{ number_format($totalPemasukan,0,',','.') }}
+            </div>
+        </div>
+
+        <div style="margin:12px 0 8px 0;">Pengeluaran</div>
+        <div style="background:#e0e0e0; border-radius:5px; height:25px;">
+            <div style="width: {{ $totalPengeluaran > 0 ? min(($totalPengeluaran / max($totalPemasukan, $totalPengeluaran)) * 100, 100) : 0 }}%;
+                        background:#c62828; height:100%; border-radius:5px; text-align:right; color:white; padding-right:6px;">
+                Rp {{ number_format($totalPengeluaran,0,',','.') }}
+            </div>
+        </div>
+    </div>
 
     <div class="signature">
         <p>Mengetahui,</p>
-        <p style="margin-top: 60px;"><strong>Manajer Keuangan</strong></p>
+        <br><br><br>
+        <p><strong>Manajer Keuangan</strong></p>
     </div>
+
 </body>
 </html>

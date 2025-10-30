@@ -28,7 +28,7 @@
            <p class="sidebar-menu-title">Dash menu</p>
        </li>
        <li class="nav-item">
-           <a class="nav-link" href="#">
+           <a class="nav-link" href="{{ route ('Dashboard.index') }}">
                <i class="typcn typcn-home menu-icon"></i>
                <span class="menu-title">Dashboard</span>
            </a>
