@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers\Transactions;
 
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Admin;
 use App\Models\Categorie;
 use App\Models\Transaction;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\LargeTransactionNotification;
+
+
 
 class IncomeController extends Controller
 {
@@ -27,19 +33,7 @@ class IncomeController extends Controller
         return view('pages.admin.transactions-income.index', compact('transactions', 'categories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-
-    public function store(Request $request)
+     public function store(Request $request)
     {
         $request->validate([
             'category_id' => 'required|exists:categories,id',
@@ -49,14 +43,17 @@ class IncomeController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        // Ambil admin_id dari user yang login
+
+
+
+
         $admin = Admin::where('id_user', auth()->id())->first();
 
         $receiptPath = $request->hasFile('receipt_file')
             ? $request->file('receipt_file')->store('receipts', 'public')
             : null;
 
-        Transaction::create([
+        $transaction = Transaction::create([
             'category_id' => $request->category_id,
             'type' => 'income',
             'date' => Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d'),
@@ -66,7 +63,20 @@ class IncomeController extends Controller
             'admin_id' => $admin ? $admin->id : null,
         ]);
 
-        return redirect()->back()->with('success', 'Income berhasil disimpan.');
+         if ($transaction->amount > 10000000) {
+        $manajers = User::where('role', 'manajer')->get();
+        if ($manajers->count() > 0) {
+            Notification::send($manajers, new LargeTransactionNotification($transaction));
+            Log::info('Notification::send called for large transaction', ['transaction_id' => $transaction->id]);
+
+        }else {
+        Log::warning('No manajers found to notify');
+    }
+
+
+    }
+
+        return redirect()->back()->with('success', 'Income berhasil disimpan');
     }
 
 
@@ -103,6 +113,18 @@ class IncomeController extends Controller
         ]);
 
         $income = Transaction::findOrFail($id);
+
+        $totalPengeluaran = Transaction::where('type', 'expense')->sum('amount');
+        $totalPemasukkanLain = Transaction::where('type', 'income')
+            ->where('id', '!=', $id)
+            ->sum('amount');
+
+        $totalPemasukkanBaru = $totalPemasukkanLain + $request->amount;
+
+        if ($totalPemasukkanBaru < $totalPengeluaran) {
+            return redirect()->back()->with('error', 'Update gagal: total pemasukkan lebih kecil dari total pengeluaran.');
+        }
+
 
         $formattedDate = Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
 

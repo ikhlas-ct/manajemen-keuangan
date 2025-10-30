@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers\Transactions;
 
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Admin;
 use App\Models\Categorie;
 use App\Models\Transaction;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\LargeTransactionNotification;
+
+
 
 class ExpenseController extends Controller
 {
@@ -49,13 +55,26 @@ class ExpenseController extends Controller
         ]);
 
         // Ambil admin_id dari user yang login
-        $admin = Admin::where('id_user', auth()->id())->first();
+    $admin = Admin::where('id_user', auth()->id())->first();
+
+    $totalPemasukkan = Transaction::where('type', 'income')->sum('amount');
+    $totalPengeluaran = Transaction::where('type', 'expense')->sum('amount');
+
+    // Hitung total pengeluaran jika ditambah yang baru
+    $totalSetelahInsert = $totalPengeluaran + $request->amount;
+
+    // Validasi: jika pengeluaran > pemasukkan → batalkan
+    if (($totalPemasukkan - $totalSetelahInsert) < 0) {
+    return redirect()->back()->with('error', 'Saldo tidak mencukupi untuk pengeluaran ini.');
+}
+
+
 
         $receiptPath = $request->hasFile('receipt_file')
             ? $request->file('receipt_file')->store('receipts', 'public')
             : null;
 
-        Transaction::create([
+       $transaction = Transaction::create([
             'category_id' => $request->category_id,
             'type' => 'expense',
             'date' => Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d'),
@@ -65,6 +84,16 @@ class ExpenseController extends Controller
             'admin_id' => $admin ? $admin->id : null,
         ]);
 
+
+         if ($transaction->amount > 10000000) {
+        $manajers = User::where('role', 'manajer')->get();
+        if ($manajers->count() > 0) {
+            Notification::send($manajers, new LargeTransactionNotification($transaction));
+
+        }
+
+
+    }
         return redirect()->back()->with('success', 'Pengeluaran berhasil disimpan.');
     }
 
@@ -101,6 +130,19 @@ class ExpenseController extends Controller
         ]);
 
         $expense = Transaction::findOrFail($id);
+        $totalPemasukkan = Transaction::where('type', 'income')->sum('amount');
+    $totalPengeluaranLain = Transaction::where('type', 'expense')
+        ->where('id', '!=', $id)
+        ->sum('amount');
+
+    // Hitung total pengeluaran baru setelah update
+    $totalSetelahUpdate = $totalPengeluaranLain + $request->amount;
+
+    // Cek apakah melebihi total pemasukkan
+    if ($totalSetelahUpdate > $totalPemasukkan) {
+        return redirect()->back()->with('error', 'Update gagal: total pengeluaran melebihi total pemasukkan.');
+    }
+
 
         $formattedDate = Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
 
