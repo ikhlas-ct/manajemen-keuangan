@@ -5,6 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+
         <title>@yield('title', 'Manajemen Keuangan')</title>
 
         <link rel="stylesheet" href="{{ asset('user/vendors/typicons.font/font/typicons.css') }}">
@@ -14,6 +15,7 @@
         <link rel="stylesheet" href="{{ asset('user/css/vertical-layout-light/style.css') }}">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 
         @yield('styles')
@@ -60,7 +62,9 @@
         crossorigin="anonymous"></script> --}}
 
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
 
         @yield('scripts')
     </body>

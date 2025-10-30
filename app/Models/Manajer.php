@@ -17,6 +17,7 @@ class Manajer extends Model
         'alamat',
         'no_telepon',
         'id_user',
+        
     ];
        public function user()
     {
