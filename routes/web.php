@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Manajer\AdminController;
 use App\Http\Controllers\Manajer\ManajerController;
 use App\Http\Controllers\CategorieController;
-
+use App\Http\Controllers\Transactions\ExpenseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,18 +66,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('layouts.app');
     })->name('dashboard');
-});
+    Route::resource('income', IncomeController::class);
+    Route::resource('expense', ExpenseController::class);
 
-
-
-
-// ========================================= laporan keuangan tes Routes ========================================= //
-Route::get('/laporan', function () {
+    Route::get('/laporan', function () {
     return view('pages.admin.laporan.index');
-    })->name('laporan.index');;
+    })->name('laporan.index');
 
-Route::get('/laporan/pdf', function () {
-    return view('pages.admin.laporan.laporan-pdf');
-    })->name('laporan.pdf');
+    Route::get('/laporan/pdf', function () {
+        return view('pages.admin.laporan.laporan-pdf');
+        })->name('laporan.pdf');
+
+});
 
 require __DIR__.'/auth.php';

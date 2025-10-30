@@ -67,20 +67,27 @@
            </li>
 
        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#transaksi" aria-expanded="false" aria-controls="transaksi">
-              <i class="typcn typcn-document-text menu-icon"></i>
-              <span class="menu-title">Transaksi</span>
-              <i class="menu-arrow"></i>
+            <a class="nav-link" data-toggle="collapse" href="#transaction" aria-expanded="false" aria-controls="transaction">
+                <i class="typcn typcn-briefcase menu-icon"></i>
+                <span class="menu-title">Transaction</span>
+                <i class="typcn typcn-chevron-right menu-arrow"></i>
             </a>
-            <div class="collapse" id="transaksi">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/income"> Income </a></li>
-                <li class="nav-item"> <a class="nav-link" href="#"> Expense </a></li>
-              </ul>
+            <div class="collapse" id="transaction">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/income">
+                            <i class="bi bi-graph-up-arrow text-success menu-icon"></i> Income
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/expense">
+                            <i class="bi bi-graph-down-arrow text-danger menu-icon"></i> Expense
+                        </a>
+                    </li>
+                </ul>
             </div>
           </li>
-      @endcan
-
+          @endcan
        <li class="nav-item">
            <a class="nav-link" href="{{ route('laporan.index') }}">
                <i class="bi bi-file-earmark-pdf-fill menu-icon"></i>
