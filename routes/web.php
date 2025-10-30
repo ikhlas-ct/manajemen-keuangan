@@ -27,7 +27,7 @@ Route::get('/testing', function () {
     return view('pages.dashboard');
 });
 
-
+Route::middleware(['role:manajer'])->group(function () {
 Route::get('/manajer/admin',[AdminController::class,'index'])->name('manajer.admin.index');
 Route::get('/manajer/admin/data',[AdminController::class,'data'])->name('manajer.admin.data');
 Route::post('/manajer/admin',[AdminController::class,'store'])->name('manajer.admin.store');
@@ -47,14 +47,16 @@ Route::delete('manajer/manajer/{id}', [ManajerController::class, 'destroy'])->na
 
 
 
-
 // ========================================= Categorie Routes ========================================= //
 Route::get('/categories', [CategorieController::class, 'index'])->name('manajer.categories.index');
 Route::post('/categories', [CategorieController::class, 'store'])->name('manajer.categories.store');
 Route::get('/categories/{id}/edit', [CategorieController::class, 'edit'])->name('manajer.categories.edit');
 Route::put('/categories/{id}', [CategorieController::class, 'update'])->name('manajer.categories.update');
 Route::delete('/categories/{id}', [CategorieController::class, 'destroy'])->name('manajer.categories.destroy');
+    Route::resource('income', IncomeController::class);
 
+
+     });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -66,6 +68,15 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
     Route::resource('income', IncomeController::class);
     Route::resource('expense', ExpenseController::class);
+
+    Route::get('/laporan', function () {
+    return view('pages.admin.laporan.index');
+    })->name('laporan.index');
+
+    Route::get('/laporan/pdf', function () {
+        return view('pages.admin.laporan.laporan-pdf');
+        })->name('laporan.pdf');
+
 });
 
 require __DIR__.'/auth.php';
