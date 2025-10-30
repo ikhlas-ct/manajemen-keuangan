@@ -8,7 +8,7 @@ use App\Http\Controllers\Manajer\ManajerController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\Transactions\ExpenseController;
 use App\Http\Controllers\DashboardController;
-
+use App\Http\Controllers\Transactions\ExpenseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,18 +56,15 @@ Route::post('/categories', [CategorieController::class, 'store'])->name('manajer
 Route::get('/categories/{id}/edit', [CategorieController::class, 'edit'])->name('manajer.categories.edit');
 Route::put('/categories/{id}', [CategorieController::class, 'update'])->name('manajer.categories.update');
 Route::delete('/categories/{id}', [CategorieController::class, 'destroy'])->name('manajer.categories.destroy');
-Route::resource('income', IncomeController::class);
+    Route::resource('income', IncomeController::class);
 
-    });
 
+     });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-  
-// ========================================= Tes Laporan Routes ========================================= //
 
     Route::get('/dashboard', function () {
         return view('layouts.app');
@@ -82,19 +79,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan/pdf', function () {
         return view('pages.admin.laporan.laporan-pdf');
         })->name('laporan.pdf');
- 
 
-
-// ========================================= Tes Dashboard Routes ========================================= //
+        // ========================================= Tes Dashboard Routes ========================================= //
 
 
 Route::get('/Dashboard', [DashboardController::class, 'index'])->name('Dashboard.index');
 
+
 });
-
-
-
-
-
 
 require __DIR__.'/auth.php';
