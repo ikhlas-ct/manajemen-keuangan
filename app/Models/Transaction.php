@@ -20,7 +20,7 @@ class Transaction extends Model
         'receipt_file',
         'admin_id',
         'category_id',
-
+ 
     ];
        public function admin()
     {
