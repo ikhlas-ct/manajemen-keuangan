@@ -7,6 +7,8 @@ use App\Http\Controllers\Manajer\AdminController;
 use App\Http\Controllers\Manajer\ManajerController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\Transactions\ExpenseController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Transactions\LaporanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,10 +46,11 @@ Route::put('manajer/manajer/{id}', [ManajerController::class, 'update'])->name('
 Route::get('manajer/manajer/{id}', [ManajerController::class, 'edit'])->name('manajer.manajer.edit');
 Route::put('manajer/manajer/{id}/password', [ManajerController::class, 'updatePassword'])->name('manajer.manajer.update-password');
 Route::delete('manajer/manajer/{id}', [ManajerController::class, 'destroy'])->name('manajer.manajer.destroy');
-
+ });
 
 
 // ========================================= Categorie Routes ========================================= //
+Route::middleware(['role:admin'])->group(function () {
 Route::get('/categories', [CategorieController::class, 'index'])->name('manajer.categories.index');
 Route::post('/categories', [CategorieController::class, 'store'])->name('manajer.categories.store');
 Route::get('/categories/{id}/edit', [CategorieController::class, 'edit'])->name('manajer.categories.edit');
@@ -66,16 +69,27 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('layouts.app');
     })->name('dashboard');
+
     Route::resource('income', IncomeController::class);
     Route::resource('expense', ExpenseController::class);
 
-    Route::get('/laporan', function () {
-    return view('pages.admin.laporan.index');
-    })->name('laporan.index');
+    Route::get('laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/cetak', [LaporanController::class, 'cetakLaporan'])->name('laporan.cetak');
 
-    Route::get('/laporan/pdf', function () {
-        return view('pages.admin.laporan.laporan-pdf');
-        })->name('laporan.pdf');
+
+    // Route::get('/laporan', function () {
+    // return view('pages.admin.laporan.index');
+    // })->name('laporan.index');
+
+    // Route::get('/laporan/pdf', function () {
+    //     return view('pages.admin.laporan.laporan-pdf');
+    //     })->name('laporan.pdf');
+
+        // ========================================= Tes Dashboard Routes ========================================= //
+
+
+Route::get('/Dashboard', [DashboardController::class, 'index'])->name('Dashboard.index');
+
 
 });
 
