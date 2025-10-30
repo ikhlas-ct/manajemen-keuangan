@@ -15,6 +15,7 @@
                 @csrf
                 @method('PUT')
 
+                  @include('partials.alert')
                 <div class="mb-3">
                     <label for="category_id" class="form-label">Category</label>
                     <select name="category_id" id="category_id" class="form-control select2" required>
