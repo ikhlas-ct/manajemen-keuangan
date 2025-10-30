@@ -45,15 +45,6 @@ Route::get('manajer/manajer/{id}', [ManajerController::class, 'edit'])->name('ma
 Route::put('manajer/manajer/{id}/password', [ManajerController::class, 'updatePassword'])->name('manajer.manajer.update-password');
 Route::delete('manajer/manajer/{id}', [ManajerController::class, 'destroy'])->name('manajer.manajer.destroy');
 
- });
-
-
-
-
-
-
-
-Route::middleware(['role:admin'])->group(function () {
 
 
 // ========================================= Categorie Routes ========================================= //
@@ -62,14 +53,10 @@ Route::post('/categories', [CategorieController::class, 'store'])->name('manajer
 Route::get('/categories/{id}/edit', [CategorieController::class, 'edit'])->name('manajer.categories.edit');
 Route::put('/categories/{id}', [CategorieController::class, 'update'])->name('manajer.categories.update');
 Route::delete('/categories/{id}', [CategorieController::class, 'destroy'])->name('manajer.categories.destroy');
-
     Route::resource('income', IncomeController::class);
 
 
      });
-
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -80,6 +67,7 @@ Route::middleware('auth')->group(function () {
         return view('layouts.app');
     })->name('dashboard');
 });
+
 
 
 
