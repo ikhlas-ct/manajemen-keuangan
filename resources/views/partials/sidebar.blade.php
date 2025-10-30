@@ -79,7 +79,7 @@
               </ul>
             </div>
           </li>
-                 @endcan
+      @endcan
 
        <li class="nav-item">
            <a class="nav-link" href="{{ route('laporan.index') }}">

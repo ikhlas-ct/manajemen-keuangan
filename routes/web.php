@@ -45,15 +45,6 @@ Route::get('manajer/manajer/{id}', [ManajerController::class, 'edit'])->name('ma
 Route::put('manajer/manajer/{id}/password', [ManajerController::class, 'updatePassword'])->name('manajer.manajer.update-password');
 Route::delete('manajer/manajer/{id}', [ManajerController::class, 'destroy'])->name('manajer.manajer.destroy');
 
- });
-
-
-
-
-
-
-
-Route::middleware(['role:admin'])->group(function () {
 
 
 // ========================================= Categorie Routes ========================================= //
