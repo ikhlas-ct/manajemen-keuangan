@@ -8,7 +8,7 @@ use App\Http\Controllers\Manajer\ManajerController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\Transactions\ExpenseController;
 use App\Http\Controllers\DashboardController;
-
+use App\Http\Controllers\Transactions\LaporanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,16 +69,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('layouts.app');
     })->name('dashboard');
+
     Route::resource('income', IncomeController::class);
     Route::resource('expense', ExpenseController::class);
 
-    Route::get('/laporan', function () {
-    return view('pages.admin.laporan.index');
-    })->name('laporan.index');
+    Route::get('laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/cetak', [LaporanController::class, 'cetakLaporan'])->name('laporan.cetak');
 
-    Route::get('/laporan/pdf', function () {
-        return view('pages.admin.laporan.laporan-pdf');
-        })->name('laporan.pdf');
+
+    // Route::get('/laporan', function () {
+    // return view('pages.admin.laporan.index');
+    // })->name('laporan.index');
+
+    // Route::get('/laporan/pdf', function () {
+    //     return view('pages.admin.laporan.laporan-pdf');
+    //     })->name('laporan.pdf');
 
         // ========================================= Tes Dashboard Routes ========================================= //
 
