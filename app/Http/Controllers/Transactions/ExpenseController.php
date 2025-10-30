@@ -26,7 +26,7 @@ class ExpenseController extends Controller
 
         return view('pages.admin.transactions-expense.index', compact('transactions', 'categories'));
     }
-
+ 
     /**
      * Show the form for creating a new resource.
      */
